@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -39,6 +42,13 @@ m.drawstates(color='gray')
 m.drawparallels(np.arange(50, 60, 0.5), labels=[1,1,1,1])
 m.drawmeridians(np.arange(18, 24, 0.5), labels=[1,1,1,1])
 
+#чтение и отрисовка станций
+stations = pd.read_csv('stations.csv', sep=',')
+
+stations_lat, stations_lng = to_dd_from_ddm(stations['lat'].values, stations['lng'].values)
+stations_num = stations['number'].values
+draw_points(ax, stations_lng, stations_lat, stations_num, 'red')
+
 #чтение и отрисовка городов
 cities = pd.read_csv('cities.csv', sep=',')
 
@@ -47,12 +57,5 @@ cities_lng = cities['lng'].values
 cities_name = cities['city'].values
 
 draw_points(ax, cities_lng, cities_lat, cities_name, 'aqua')
-
-#чтение и отрисовка станций
-stations = pd.read_csv('stations.csv', sep=',')
-
-stations_lat, stations_lng = to_dd_from_ddm(stations['lat'].values, stations['lng'].values)
-stations_num = stations['number'].values
-draw_points(ax, stations_lng, stations_lat, stations_num, 'red')
 
 plt.show()
